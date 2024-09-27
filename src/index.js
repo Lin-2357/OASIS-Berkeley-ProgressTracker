@@ -15,16 +15,11 @@ async function getData() {
 
 const dat = await getData()
 
-async function update(searchstr, selectedOrg) {
+async function update(searchstr) {
     var orgs = `<div style="width: 100vw; height: 100vh; overflow: scroll;">
         <input type="text" id="search" value="${searchstr}" style= "width: 80%; height: 25px; margin: 20px 10% 0 10%; background-color: #d9d9d9; border-radius: 13px; font-size: 20px; padding-left: 10px; padding: right: 10px;"></input>
         <div id="detail" style="float: right; padding: 20px; width: 55%; height: 250px; background-color: blue; margin-right: 40px; margin-top: 20px; background-color: #d9d9d9; border-radius: 10px">
-          ${selectedOrg ? 
-            `<h3>${selectedOrg['Organization Name']}</h3>
-            <p>NOTE: If your organization has no less than 4 signatories, has registration form approved, but is still action required: check if at least 4 signatories agreed to terms and condition</p>
-            <p>Registration Form: ${selectedOrg['Reg Form']}</p>
-            <p>Number of Signatories: ${selectedOrg['Signatory']}</p>
-            <h4>Action Required: <span style="color: ${selectedOrg['T&C'] == 'In Progress' ? 'red' : 'green'}">${(selectedOrg['T&C'] == 'In Progress').toString().toUpperCase()}</span> </h4>` : 'No Organization Selected'}
+            
         </div>
     `
     for (var i=0; i<dat.length; i++) {
@@ -41,12 +36,21 @@ async function update(searchstr, selectedOrg) {
     document.body.innerHTML = orgs
     for (var i=0; i<dat.length; i++) {
       const v = dat[i]
-      document.getElementById(v['Organization ID'].toString()).addEventListener('click', ()=>{
-        document.getElementById('detail').innerHTML = "Loading.."
-        update(searchstr, v)
-      })
+      if (document.getElementById(v['Organization ID'].toString())) {
+        document.getElementById(v['Organization ID'].toString()).addEventListener('click', ()=>{
+          document.getElementById('detail').innerHTML = `<h3>${v['Organization Name']}</h3>
+              <p>NOTE: If your organization has no less than 4 signatories, has registration form approved, but is still action required: check if at least 4 signatories agreed to terms and condition</p>
+              <p>Registration Form: ${v['Reg Form']}</p>
+              <p>Number of Signatories: ${v['Signatory']}</p>
+              <h4>Action Required: <span style="color: ${v['T&C'] == 'In Progress' ? 'red' : 'green'}">${(v['T&C'] == 'In Progress').toString().toUpperCase()}</span> </h4>`
+        })
+      }
     }
-    document.getElementById('search').addEventListener('change', (e)=>{update(e.target.value, selectedOrg)})
+    document.getElementById('search').addEventListener('change', (e)=>{
+      if (e.target.value != searchstr) {
+        update(e.target.value)
+      }
+    })
 }
 
-await update('', undefined)
+await update('')
