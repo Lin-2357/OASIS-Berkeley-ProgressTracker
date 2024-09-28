@@ -20,7 +20,9 @@ var selectedOrg = -1
 function updatecolor() {
   for (var i=0; i<dat.length; i++) {
     const v = dat[i]
-    document.getElementById(v['Organization ID'].toString()).style.backgroundColor = selectedOrg===v['Organization ID']? "#a0a0a0" : "#d9d9d9"
+    if (document.getElementById(v['Organization ID'].toString())) {
+      document.getElementById(v['Organization ID'].toString()).style.backgroundColor = selectedOrg===v['Organization ID']? "#a0a0a0" : "#d9d9d9"
+    }
   }
 }
 
