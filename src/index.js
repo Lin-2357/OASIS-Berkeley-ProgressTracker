@@ -29,19 +29,21 @@ function updatecolor() {
 async function update(searchstr) {
     var orgs = `<div style="width: 100vw; min-width: 800px; height: 100vh; overflow-y: scroll;">
         <h2>UCB Student Organization Registration Progress Tracker</h2>
-        <input type="text" id="search" value="${searchstr}" placeholder="search your organization here" style="padding: 5px; width: 80%; height: 25px; margin: 20px 10% 20px 10%; background-color: #d9d9d9; border-radius: 13px; font-size: 20px; padding-left: 10px; padding: right: 10px;"></input>
+        <input type="text" id="search" value="${searchstr}" placeholder="search your organization here, input at least 1 character" style="padding: 5px; width: 80%; height: 25px; margin: 20px 10% 20px 10%; background-color: #d9d9d9; border-radius: 13px; font-size: 20px; padding-left: 10px; padding: right: 10px;"></input>
         <div id="detail" style="overflow-y: scroll; float: right; padding: 20px; width: 45%; border: 2px black solid; min-width: 150px; min-height: 250px; background-color: blue; margin-right: 40px; margin-top: 20px; background-color: #d9d9d9; border-radius: 10px">
             No Organization selected
         </div>
     `
-    for (var i=0; i<dat.length; i++) {
-      const v = dat[i]
-      if (v['Organization Name'].toLowerCase().indexOf(searchstr.toLowerCase()) != -1 || v['Organization ID'].toString().indexOf(searchstr) !== -1) {
-          orgs += `<div id="${v['Organization ID'].toString()}" style="cursor: pointer; min-width: 150px; width: 30%; height: 80px; overflow-y: scroll; background-color: #d9d9d9; border: 2px solid black; margin: 20px; padding: 10px; border-radius: 10px">
-              <div>${v['Organization Name']}</div>
-              <div>ID: ${v['Organization ID']}</div>
-              <div>STATUS: ${v['Org Type']}</div>
-          </div>`
+    if (searchstr.length > 0) {
+      for (var i=0; i<dat.length; i++) {
+        const v = dat[i]
+        if (v['Organization Name'].toLowerCase().indexOf(searchstr.toLowerCase()) != -1 || v['Organization ID'].toString().indexOf(searchstr) !== -1) {
+            orgs += `<div id="${v['Organization ID'].toString()}" style="cursor: pointer; min-width: 150px; width: 30%; height: 80px; overflow-y: scroll; background-color: #d9d9d9; border: 2px solid black; margin: 20px; padding: 10px; border-radius: 10px">
+                <div>${v['Organization Name']}</div>
+                <div>ID: ${v['Organization ID']}</div>
+                <div>STATUS: ${v['Org Type']}</div>
+            </div>`
+        }
       }
     }
     orgs += `</div>`
