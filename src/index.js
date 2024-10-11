@@ -1,19 +1,43 @@
+// async function getData() {
+//     const url = "./src/NewRaw.json";
+//     try {
+//       const response = await fetch(url);
+//       if (!response.ok) {
+//         throw new Error(`Response status: ${response.status}`);
+//       }
+  
+//       const json = await response.json();
+//       return json
+//     } catch (error) {
+//       console.error(error.message);
+//     }
+//   }
+
 async function getData() {
-    const url = "./src/NewRaw.json";
+  const url = "https://script.google.com/macros/s/AKfycbxUpBRe2kKOA09h8m49QB2NrAdx4WWmxY14jclVh2pM6FeZ1rGv5pVdnPzs627VjeKq4w/exec";
     try {
       const response = await fetch(url);
       if (!response.ok) {
         throw new Error(`Response status: ${response.status}`);
       }
-  
       const json = await response.json();
       return json
     } catch (error) {
       console.error(error.message);
     }
-  }
+}
 
 const dat = await getData()
+for (var i=0; i<dat.length; i++) {
+  const v = dat[i]
+  v['Organization ID'] = v['Org ID']
+  v['Reg Form'] = v[`Reg Form Progress
+
+ (Pending means you need to wait for OASIS Staff to approve your Reg form)`]
+ v['Signatory'] = v[`Number of Signatories
+(Need 4 to 8)`]
+ v['T&C'] = v['Completed T&C']
+}
 
 var selectedOrg = -1
 
