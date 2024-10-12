@@ -37,6 +37,7 @@ for (var i=0; i<dat.length; i++) {
  v['Signatory'] = v[`Number of Signatories
 (Need 4 to 8)`]
  v['T&C'] = v['Completed T&C']
+ v['OASIS Center Advisor'] = v['OASIS Center Advisor ']
 }
 
 var selectedOrg = -1
